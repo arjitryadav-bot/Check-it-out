@@ -3,155 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Priya, Will You Be My Valentine? ❤️</title>
+<title>Priya ❤️</title>
 
 <style>
-*{box-sizing:border-box}
+* { box-sizing: border-box; }
 
-body{
-  margin:0;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#ff758c,#ff7eb3);
-  font-family:'Segoe UI',sans-serif;
-  overflow:hidden;
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
-.card{
-  position:relative;
-  background:white;
-  padding:45px 35px;
-  border-radius:24px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25);
-  text-align:center;
-  max-width:420px;
-  z-index:2;
+/* CARD */
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 420px;
+  position: relative;
+  z-index: 2;
 }
 
-h1{color:#ff3b6f}
-p{color:#444;font-size:18px;line-height:1.5}
+h1 { color: #ff3b6f; }
 
-button{
-  padding:14px 30px;
-  font-size:17px;
-  border:none;
-  border-radius:30px;
-  cursor:pointer;
+button {
+  padding: 14px 28px;
+  font-size: 16px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
 }
 
-.yes{
-  background:#ff3b6f;
-  color:white;
-  margin-right:12px;
+.yes {
+  background: #ff3b6f;
+  color: white;
+  margin-right: 10px;
 }
 
-.no{
-  background:#ddd;
-  color:#333;
-  position:relative; /* IMPORTANT: prevents movement */
+.no {
+  background: #ddd;
+  color: #333;
 }
 
-/* Overlay */
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
 }
 
-/* Popup */
-.popup{
-  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
-  padding:30px;
-  border-radius:30px;
-  text-align:center;
-  animation:pop .6s ease;
-  position:relative;
+/* POPUP */
+.popup {
+  background: #fff;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 350px;
+  position: relative;
 }
 
-@keyframes pop{
-  from{transform:scale(.5);opacity:0}
-  to{transform:scale(1);opacity:1}
+.popup img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 10px;
 }
 
-.popup img{
-  max-width:260px;
-  border-radius:20px;
-  margin-top:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,.3);
+.close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 22px;
+  cursor: pointer;
 }
 
-.close{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:24px;
-  cursor:pointer;
+/* EXPLOSION */
+.explode {
+  animation: explode 0.5s forwards;
 }
 
-.ring{
-  font-size:60px;
-  animation:pulse 1.5s infinite;
+@keyframes explode {
+  to { transform: scale(0); opacity: 0; }
 }
 
-@keyframes pulse{
-  0%,100%{transform:scale(1)}
-  50%{transform:scale(1.3)}
+.particle {
+  position: fixed;
+  font-size: 22px;
+  pointer-events: none;
+  animation: particle 0.8s forwards;
 }
 
-/* 💥 Explosion */
-.explode{
-  animation:explode .6s forwards;
-}
-
-@keyframes explode{
-  to{transform:scale(0);opacity:0}
-}
-
-.particle{
-  position:fixed;
-  font-size:22px;
-  pointer-events:none;
-  animation:particle .8s forwards;
-  z-index:9999;
-}
-
-@keyframes particle{
-  to{
-    transform:translate(var(--x),var(--y)) scale(.2);
-    opacity:0;
+@keyframes particle {
+  to {
+    transform: translate(var(--x), var(--y));
+    opacity: 0;
   }
 }
 
-/* Final Screen */
-.final{
-  position:fixed;
-  inset:0;
-  background:black;
-  color:white;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  font-size:48px;
-  animation:fade 3s forwards;
-  z-index:20;
-}
-
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
+/* FINAL */
+.final {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  z-index: 10;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC -->
+<!-- MUSIC -->
 <audio id="music" preload="auto" loop>
   <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
 </audio>
@@ -159,53 +136,97 @@ button{
 <div class="card">
   <h1>My Babu, Priya 💖</h1>
   <p>
-    This isn’t just about Valentine’s Day.<br>
-    It’s about choosing <b>you</b> — again and again — forever.<br><br>
+    This isn’t just Valentine’s Day.<br>
+    It’s choosing you forever.<br><br>
     <b>Will you be my Valentine?</b>
   </p>
 
-  <button class="yes" onclick="sayYes()">Yes 💕</button>
+  <button class="yes" id="yesBtn">Yes 💕</button>
   <button class="no" id="noBtn">No 🙈</button>
 </div>
 
-<!-- Proposal Popup -->
-<div class="overlay" id="overlay">
+<!-- PROPOSAL -->
+<div class="overlay" id="proposal">
   <div class="popup">
-    <div class="close" onclick="closePopup()">✖</div>
-    <div class="ring">💍</div>
-    <img src="our_photo.jpg" alt="Arjit & Priya">
-    <h2>Forever & Always ❤️</h2>
-    <p>Love, Arjit</p>
+    <div class="close" id="closeProposal">✖</div>
+    <div style="font-size:50px;">💍</div>
+    <img src="our_photo.jpg" alt="Us">
+    <p><b>Forever & Always</b><br>Love, Arjit ❤️</p>
   </div>
 </div>
 
-<!-- Secret -->
+<!-- SECRET -->
 <div class="overlay" id="secret">
   <div class="popup">
-    <h3>🔒 A Secret Just for You</h3>
-    <input id="pass" type="password" placeholder="Password" style="padding:10px;border-radius:10px;border:1px solid #ccc">
+    <h3>🔒 A Secret for You</h3>
+    <input id="pass" type="password" placeholder="Password">
     <p><small>Hint: the day of proposal</small></p>
-    <button onclick="unlock()">Unlock 💖</button>
+    <button id="unlockBtn">Unlock 💖</button>
   </div>
 </div>
 
-<!-- Final -->
 <div class="final" id="final">I LOVE YOU 💍</div>
 
 <script>
+const yesBtn = document.getElementById("yesBtn");
 const noBtn = document.getElementById("noBtn");
-const overlay = document.getElementById("overlay");
+const proposal = document.getElementById("proposal");
+const closeProposal = document.getElementById("closeProposal");
 const secret = document.getElementById("secret");
-const music = document.getElementById("music");
+const unlockBtn = document.getElementById("unlockBtn");
 const final = document.getElementById("final");
+const music = document.getElementById("music");
 
-/* 💥 NO BUTTON EXPLOSION ONLY */
+/* YES */
+yesBtn.addEventListener("click", () => {
+  proposal.style.display = "flex";
+  music.currentTime = 0;
+  music.play().catch(()=>{});
+});
+
+/* CLOSE PROPOSAL */
+closeProposal.addEventListener("click", () => {
+  proposal.style.display = "none";
+  secret.style.display = "flex";
+});
+
+/* UNLOCK */
+unlockBtn.addEventListener("click", () => {
+  if (document.getElementById("pass").value === "12072025") {
+    secret.innerHTML = `
+      <div class="popup">
+        I know I am not perfect and not always easy to be with.
+        I may irritate you many times, but I truly love you and will
+        do whatever it takes to be together forever.<br><br>
+        I love you, Priya Bajpai, till my last breath.
+      </div>`;
+    setTimeout(() => final.style.display = "flex", 20000);
+  } else {
+    alert("Wrong password, Babu ❤️");
+  }
+});
+
+/* NO EXPLOSION */
 noBtn.addEventListener("click", () => {
-  noBtn.disabled = true;
   noBtn.classList.add("explode");
+  noBtn.disabled = true;
 
-  const emojis = ["💥","💔","🔥","😵","💣"];
-  const r = noBtn.getBoundingClientRect();
+  const rect = noBtn.getBoundingClientRect();
+  const emojis = ["💥","💔","🔥"];
 
-  for(let i=0;i<20;i++){
+  for (let i = 0; i < 15; i++) {
     const p = document.createElement("div");
+    p.className = "particle";
+    p.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    p.style.left = rect.left + rect.width/2 + "px";
+    p.style.top = rect.top + rect.height/2 + "px";
+    p.style.setProperty("--x", (Math.random()*200-100)+"px");
+    p.style.setProperty("--y", (Math.random()*200-100)+"px");
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),800);
+  }
+});
+</script>
+
+</body>
+</html>
