@@ -6,268 +6,304 @@
 <title>Priya, Will You Be My Valentine? ❤️</title>
 
 <style>
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #ff758c, #ff7eb3);
-  font-family: 'Segoe UI', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#ff758c,#ff7eb3);
+  font-family:'Segoe UI',sans-serif;
+  overflow:hidden;
 }
 
-.card {
-  background: white;
-  padding: 45px 35px;
-  border-radius: 28px;
-  text-align: center;
-  max-width: 420px;
-  box-shadow: 0 30px 60px rgba(0,0,0,.25);
-  animation: fadeIn 1s ease;
-  z-index: 2;
+/* CARD */
+.card{
+  background:white;
+  padding:45px 35px;
+  border-radius:24px;
+  text-align:center;
+  max-width:420px;
+  box-shadow:0 25px 50px rgba(0,0,0,.25);
+  z-index:2;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(.9); }
-  to { opacity: 1; transform: scale(1); }
+h1{color:#ff3b6f;font-size:30px;}
+p{color:#444;font-size:18px;line-height:1.5}
+
+button{
+  padding:14px 30px;
+  font-size:17px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  transition:.25s ease;
 }
 
-h1 { color: #ff2f6d; }
-p { color: #444; font-size: 18px; }
+.yes{background:#ff3b6f;color:white}
+.no{background:#ddd;color:#333;position:absolute}
 
-button {
-  padding: 14px 30px;
-  border-radius: 30px;
-  border: none;
-  font-size: 17px;
-  cursor: pointer;
-  transition: transform .25s ease;
+button:hover{
+  transform:scale(1.08);
+  box-shadow:0 12px 25px rgba(0,0,0,.25);
 }
 
-button:hover { transform: scale(1.08); }
-
-.yes { background: #ff2f6d; color: white; }
-.no { background: #ddd; position: absolute; }
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.65);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
+/* OVERLAY */
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:10;
 }
 
-.popup {
-  background: linear-gradient(135deg,#ffdde1,#ee9ca7);
-  padding: 30px;
-  border-radius: 30px;
-  text-align: center;
-  max-width: 420px;
-  animation: popIn .8s ease;
-  position: relative;
+/* POPUP */
+.popup{
+  background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+  padding:35px;
+  border-radius:30px;
+  text-align:center;
+  animation:pop .8s cubic-bezier(.22,1,.36,1);
 }
 
-@keyframes popIn {
-  from { transform: scale(.6); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+.popup img{
+  max-width:260px;
+  border-radius:20px;
+  margin:15px 0;
+  box-shadow:0 15px 30px rgba(0,0,0,.3);
 }
 
-.close-btn {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  background: none;
-  border: none;
-  font-size: 26px;
-  cursor: pointer;
-  color: #ff2f6d;
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-.popup img {
-  max-width: 260px;
-  border-radius: 20px;
-  margin: 15px 0;
+/* RING */
+.ring{
+  font-size:60px;
+  animation:ringPulse 1.5s infinite;
 }
 
-.ring {
-  font-size: 60px;
-  animation: ringPulse 1.8s ease-in-out infinite;
+@keyframes ringPulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.3) rotate(10deg)}
+  100%{transform:scale(1)}
 }
 
-@keyframes ringPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.25) rotate(8deg); }
-  100% { transform: scale(1); }
+/* KNEE DOWN */
+.knee{
+  position:fixed;
+  bottom:-120px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:90px;
+  animation:kneeDown 2s ease forwards;
+  z-index:40;
 }
 
-.explosion {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  animation: explode 1.2s ease-out forwards;
-  font-size: 28px;
-  pointer-events: none;
+@keyframes kneeDown{
+  to{bottom:120px;}
 }
 
-@keyframes explode {
-  to {
-    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.4);
-    opacity: 0;
+/* CONFETTI */
+.explosion{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:30px;
+  animation:explode 1.4s cubic-bezier(.22,1,.36,1) forwards;
+  pointer-events:none;
+  z-index:50;
+}
+
+@keyframes explode{
+  to{
+    transform:
+      translate(calc(-50% + var(--x)),
+                calc(-50% + var(--y)))
+      scale(0);
+    opacity:0;
   }
 }
 
-.final-screen {
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg,#ff758c,#ff7eb3);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  color: white;
-  z-index: 20;
-  animation: fadeIn 1.2s ease;
+/* ROSES */
+.rose{
+  position:fixed;
+  top:-10px;
+  font-size:26px;
+  animation:fall linear infinite;
+  z-index:5;
 }
 
-.final-screen h1 { font-size: 40px; }
-.final-screen p { font-size: 22px; max-width: 520px; }
+@keyframes fall{
+  to{transform:translateY(110vh);}
+}
+
+/* FINAL LOVE SCREEN */
+.final-love{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  animation:fadeIn 3s ease forwards;
+  z-index:100;
+}
+
+.final-love h1{
+  color:#ff5c8a;
+  font-size:48px;
+  animation:pulse 2.5s infinite;
+  text-align:center;
+}
+
+@keyframes fadeIn{
+  to{opacity:1;}
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);opacity:.8}
+  50%{transform:scale(1.08);opacity:1}
+  100%{transform:scale(1);opacity:.8}
+}
 </style>
 </head>
 
 <body>
 
-<!-- Background music -->
+<!-- AUDIO -->
 <audio id="music" loop>
   <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Heartbeat -->
 <audio id="heartbeat" loop>
   <source src="heartbeat.mp3" type="audio/mpeg">
 </audio>
 
+<!-- MAIN CARD -->
 <div class="card">
-  <h1>My Babu, Priya 💖</h1>
-  <p>
-    This isn’t just Valentine’s Day.<br>
-    It’s choosing you — again and again.<br><br>
-    <b>Will you be my Valentine?</b>
-  </p>
-  <button class="yes" onclick="sayYes()">Yes 💕</button>
-  <button class="no" id="noBtn">No 🙈</button>
+<h1>My Babu, Priya 💖</h1>
+<p>
+This isn’t just about Valentine’s Day.<br>
+It’s about choosing <b>you</b> again and again,<br>
+for the rest of my life.<br><br>
+<b>Will you be my Valentine?</b>
+</p>
+<button class="yes" onclick="sayYes()">Yes 💕</button>
+<button class="no" id="noBtn">No 🙈</button>
 </div>
 
+<!-- POPUP -->
 <div class="overlay" id="overlay">
   <div class="popup">
-    <button class="close-btn" onclick="closePopup()">✕</button>
     <div class="ring">💍</div>
     <img src="our_photo.jpg" alt="Arjit & Priya">
     <h2>Forever & Always 💖</h2>
-    <p>You are my today, my tomorrow, and my forever.</p>
+    <p>You are my today, my tomorrow, and all my forever.</p>
+    <p><b>Love, Arjit ❤️</b></p>
   </div>
 </div>
 
-<div class="final-screen" id="final">
-  <div class="ring">💍</div>
-  <h1>I Love You, Priya ❤️</h1>
-  <p>
-    I may not be perfect, but my love for you is real and eternal.<br>
-    I choose you — for every lifetime.
-  </p>
-</div>
-
 <script>
-const noBtn = document.getElementById('noBtn');
-const overlay = document.getElementById('overlay');
-const music = document.getElementById('music');
-const heartbeat = document.getElementById('heartbeat');
-const final = document.getElementById('final');
+const noBtn=document.getElementById("noBtn");
+const overlay=document.getElementById("overlay");
+const music=document.getElementById("music");
+const heartbeat=document.getElementById("heartbeat");
 
-noBtn.onmouseover = () => {
-  noBtn.style.left = Math.random() * 80 + 'vw';
-  noBtn.style.top = Math.random() * 80 + 'vh';
-};
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("click",moveNo);
 
-function confettiExplosion() {
-  const emojis = ['🎉','🎊','💖','✨','🥳','🎈'];
-  for (let i = 0; i < 70; i++) {
-    const c = document.createElement('div');
-    c.className = 'explosion';
-    c.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-    c.style.setProperty('--x', (Math.random() * 600 - 300) + 'px');
-    c.style.setProperty('--y', (Math.random() * 600 - 300) + 'px');
-    document.body.appendChild(c);
-    setTimeout(() => c.remove(), 1200);
+function moveNo(){
+  noBtn.style.left=Math.random()*80+"vw";
+  noBtn.style.top=Math.random()*80+"vh";
+}
+
+function sayYes(){
+  music.play();
+  heartbeat.volume=0.35;
+  heartbeat.play();
+
+  kneeDown();
+  setTimeout(confettiExplosion,800);
+  setTimeout(startRoses,1000);
+  setTimeout(()=>overlay.style.display="flex",1600);
+  setTimeout(showSecret,3200);
+  setTimeout(finalLove,12000);
+}
+
+function kneeDown(){
+  const k=document.createElement("div");
+  k.className="knee";
+  k.textContent="🧎‍♂️";
+  document.body.appendChild(k);
+}
+
+function confettiExplosion(){
+  const emojis=["🎉","💖","✨","🎈","🥳","🎆"];
+  for(let i=0;i<100;i++){
+    const e=document.createElement("div");
+    e.className="explosion";
+    e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.setProperty("--x",(Math.random()*600-300)+"px");
+    e.style.setProperty("--y",(Math.random()*600-300)+"px");
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),1400);
   }
 }
 
-function sayYes() {
-  overlay.style.display = 'flex';
-  music.play();
-  heartbeat.volume = 0.35;
-  heartbeat.play();
-  confettiExplosion();
-  setTimeout(showSecret, 2000);
+function startRoses(){
+  for(let i=0;i<30;i++){
+    const r=document.createElement("div");
+    r.className="rose";
+    r.textContent="🌹";
+    r.style.left=Math.random()*100+"vw";
+    r.style.animationDuration=4+Math.random()*4+"s";
+    document.body.appendChild(r);
+  }
 }
 
-function closePopup() {
-  overlay.style.display = 'none';
-}
-
-function showSecret() {
-  const box = document.createElement('div');
-  box.style.position = 'fixed';
-  box.style.bottom = '20px';
-  box.style.left = '50%';
-  box.style.transform = 'translateX(-50%)';
-  box.style.background = 'rgba(255,255,255,0.95)';
-  box.style.padding = '22px';
-  box.style.borderRadius = '22px';
-  box.style.zIndex = '15';
-  box.innerHTML = `
-    <b>🔒 Something only you should open ❤️</b><br><br>
-    <button id="open">Tap to unlock</button>
-  `;
+function showSecret(){
+  const box=document.createElement("div");
+  box.style.position="fixed";
+  box.style.bottom="20px";
+  box.style.left="50%";
+  box.style.transform="translateX(-50%)";
+  box.style.background="rgba(255,255,255,.95)";
+  box.style.padding="20px";
+  box.style.borderRadius="20px";
+  box.style.zIndex="60";
+  box.style.textAlign="center";
+  box.innerHTML=`
+  <b>🔒 A Secret Just for You</b><br><br>
+  <input id="pass" type="password" placeholder="Password"
+  style="padding:10px;border-radius:10px"><br><br>
+  <small>Hint: the day of proposal</small><br><br>
+  <button onclick="unlock()">Unlock 💖</button>`;
   document.body.appendChild(box);
 
-  document.getElementById('open').onclick = () => {
-    box.innerHTML = `
-      <input type="password" id="pass" placeholder="••••••••"><br><br>
-      <button onclick="unlock()">Unlock</button>
-    `;
-  };
-
-  window.unlock = () => {
-    if (document.getElementById('pass').value === '12072025') {
-      box.remove();
-      overlay.style.display = 'none';
-      fadeOutHeartbeat();
-      setTimeout(() => final.style.display = 'flex', 900);
-    } else {
-      alert('Try again, Babu 💕');
+  window.unlock=()=>{
+    if(document.getElementById("pass").value==="12072025"){
+      box.innerHTML=`💖<br>
+      I know I am not perfect and not always easy to be with.
+      I may act rudely or irritate you many times, but I truly love you
+      and I am willing to do whatever it takes for us to be together forever.<br><br>
+      I love you, Priya Bajpai, and I will love you until my very last breath.`;
+    }else{
+      alert("Try again, Babu 💕");
     }
   };
 }
 
-function fadeOutHeartbeat() {
-  let vol = heartbeat.volume;
-  const fade = setInterval(() => {
-    if (vol > 0.05) {
-      vol -= 0.05;
-      heartbeat.volume = vol;
-    } else {
-      heartbeat.pause();
-      heartbeat.currentTime = 0;
-      clearInterval(fade);
-    }
-  }, 200);
+function finalLove(){
+  const f=document.createElement("div");
+  f.className="final-love";
+  f.innerHTML="<h1>I love you, Priya ❤️</h1>";
+  document.body.appendChild(f);
 }
 </script>
 
