@@ -122,14 +122,16 @@ button {
   justify-content: center;
   font-size: 40px;
   z-index: 10;
+  opacity: 0;
 }
 </style>
 </head>
 
 <body>
 
+<!-- MUSIC -->
 <audio id="music" loop>
-  <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
+  <source src="./cant_help_falling_in_love.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -144,15 +146,17 @@ button {
   <button class="no" id="noBtn">No 🙈</button>
 </div>
 
+<!-- PROPOSAL -->
 <div class="overlay" id="proposal">
   <div class="popup">
     <div class="close" id="closeProposal">✖</div>
     <div style="font-size:50px;">💍</div>
-    <img src="our_photo.jpg" alt="Us">
+    <img src="./our_photo.jpg" alt="Us">
     <p><b>Forever & Always</b><br>Love, Arjit ❤️</p>
   </div>
 </div>
 
+<!-- SECRET -->
 <div class="overlay" id="secret">
   <div class="popup">
     <h3>🔒 A Secret for You</h3>
@@ -179,8 +183,14 @@ const music = document.getElementById("music");
 /* YES BUTTON */
 yesBtn.addEventListener("click", function() {
   proposal.style.display = "flex";
+
   music.volume = 0.6;
-  music.play().catch(() => {});
+  music.currentTime = 0;
+
+  const playPromise = music.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {});
+  }
 });
 
 /* CLOSE PROPOSAL */
@@ -203,9 +213,14 @@ unlockBtn.addEventListener("click", function() {
       </div>
     `;
 
+    // 10 second delay + fade effect
     setTimeout(function() {
       final.style.display = "flex";
-    }, 20000);
+      final.style.transition = "opacity 2s";
+      setTimeout(function() {
+        final.style.opacity = "1";
+      }, 100);
+    }, 10000);
 
   } else {
     alert("Wrong password, Babu ❤️");
