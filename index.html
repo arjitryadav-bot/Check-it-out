@@ -1,296 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Priya, Will You Be My Valentine? ❤️</title>
-  <style>
-    .close-btn {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #ff3366;
-  z-index: 9999;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Priya, Will You Be My Valentine? ❤️</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
-    body {
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-    }
 
-    .card {
-      background: white;
-      padding: 45px 35px;
-      border-radius: 24px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-      text-align: center;
-      max-width: 420px;
-      position: relative;
-      z-index: 2;
-    }
+.card {
+  background: white;
+  padding: 45px 35px;
+  border-radius: 28px;
+  text-align: center;
+  max-width: 420px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.25);
+  animation: fadeIn 1s ease;
+  z-index: 2;
+}
 
-    h1 {
-      color: #ff3b6f;
-      margin-bottom: 15px;
-      font-size: 30px;
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(.9); }
+  to { opacity: 1; transform: scale(1); }
+}
 
-    p {
-      color: #444;
-      margin-bottom: 30px;
-      font-size: 18px;
-      line-height: 1.5;
-    }
+h1 { color: #ff2f6d; }
+p { color: #444; font-size: 18px; }
 
-    button {
-      padding: 14px 30px;
-      font-size: 17px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
+button {
+  padding: 14px 30px;
+  border-radius: 30px;
+  border: none;
+  font-size: 17px;
+  cursor: pointer;
+  transition: transform .25s ease;
+}
 
-    .yes {
-      background: #ff3b6f;
-      color: white;
-      margin-right: 12px;
-    }
+button:hover { transform: scale(1.08); }
 
-    .no {
-      background: #ddd;
-      color: #333;
-      position: absolute;
-    }
+.yes { background: #ff2f6d; color: white; }
+.no { background: #ddd; position: absolute; }
 
-    button:hover {
-      transform: scale(1.08);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.25);
-    }
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
 
-    /* Falling hearts */
-    .heart {
-      position: fixed;
-      top: -10px;
-      font-size: 22px;
-      animation: fall linear infinite;
-      color: #ff3b6f;
-      z-index: 1;
-    }
+.popup {
+  background: linear-gradient(135deg,#ffdde1,#ee9ca7);
+  padding: 30px;
+  border-radius: 30px;
+  text-align: center;
+  max-width: 420px;
+  animation: popIn .8s ease;
+  position: relative;
+}
 
-    @keyframes fall {
-      to { transform: translateY(110vh); }
-    }
+@keyframes popIn {
+  from { transform: scale(.6); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
 
-    /* Popup */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 5;
-    }
+.close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #ff2f6d;
+}
 
-    .popup {
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      padding: 35px 25px;
-      border-radius: 30px;
-      text-align: center;
-      width: 90vw;
-      max-width: 420px;
-      animation: pop 0.8s ease;
-      position: relative;
-    }
+.popup img {
+  max-width: 260px;
+  border-radius: 20px;
+  margin: 15px 0;
+}
 
-    .popup.full h2 {
-      color: #ff2f6d;
-      margin: 15px 0 10px;
-      font-size: 26px;
-    }
+.ring {
+  font-size: 60px;
+  animation: ringPulse 1.8s ease-in-out infinite;
+}
 
-    .popup.full p {
-      color: #333;
-      font-size: 18px;
-      line-height: 1.4;
-    }
+@keyframes ringPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25) rotate(8deg); }
+  100% { transform: scale(1); }
+}
 
-    .ring {
-      font-size: 60px;
-      animation: ringPulse 1.5s infinite;
-      margin-bottom: 10px;
-    }
+.explosion {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  animation: explode 1.2s ease-out forwards;
+  font-size: 28px;
+  pointer-events: none;
+}
 
-    @keyframes ringPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.3) rotate(10deg); }
-      100% { transform: scale(1); }
-    }
+@keyframes explode {
+  to {
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.4);
+    opacity: 0;
+  }
+}
 
-    @keyframes pop {
-      from { transform: scale(0.5); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
+.final-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg,#ff758c,#ff7eb3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+  z-index: 20;
+  animation: fadeIn 1.2s ease;
+}
 
-    .popup img {
-      max-width: 280px;
-      border-radius: 20px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    }
-
-    .celebrate {
-      font-size: 26px;
-      margin-top: 15px;
-      color: #ff3b6f;
-    }
-
-    .confetti {
-      position: fixed;
-      top: -10px;
-      font-size: 24px;
-      animation: fall linear infinite;
-      z-index: 6;
-    }
-  </style>
+.final-screen h1 { font-size: 40px; }
+.final-screen p { font-size: 22px; max-width: 520px; }
+</style>
 </head>
+
 <body>
 
-  <!-- Background Music -->
-  <!-- Autoplay works after interaction in most browsers -->
-  <audio id="music" loop>
-    <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
-  </audio>
+<!-- Background music -->
+<audio id="music" loop>
+  <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
+</audio>
 
-  <div class="card">
-    <h1>My Babu, Priya 💖</h1>
-    <p>
-      This isn’t just about Valentine’s Day.<br>
-      It’s about choosing <b>you</b> — again and again — for the rest of my life.<br><br>
-      I love you.<br>
-      <b>Will you be my Valentine?</b>
-    </p>
-    <button class="yes" onclick="sayYes()">Yes 💕</button>
-    <button class="no" id="noBtn">No 🙈</button>
+<!-- Heartbeat -->
+<audio id="heartbeat" loop>
+  <source src="heartbeat.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h1>My Babu, Priya 💖</h1>
+  <p>
+    This isn’t just Valentine’s Day.<br>
+    It’s choosing you — again and again.<br><br>
+    <b>Will you be my Valentine?</b>
+  </p>
+  <button class="yes" onclick="sayYes()">Yes 💕</button>
+  <button class="no" id="noBtn">No 🙈</button>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="popup">
+    <button class="close-btn" onclick="closePopup()">✕</button>
+    <div class="ring">💍</div>
+    <img src="our_photo.jpg" alt="Arjit & Priya">
+    <h2>Forever & Always 💖</h2>
+    <p>You are my today, my tomorrow, and my forever.</p>
   </div>
+</div>
 
-  <!-- Popup -->
-  <div class="overlay" id="overlay">
-    <div class="popup full">
-      <div class="ring">💍</div>
-      <img src="our_photo.jpg" alt="Arjit and Priya" class="couple-photo">
-      <h2>Forever & Always 💖</h2>
-      <p>
-        You are my today,<nobr></nobr><br>
-        my tomorrow,<br>
-        and all my forever.
-      </p>
-      <p style="font-weight:bold;">Love, Arjit ❤️</p>
-    </div>
-  </div>
+<div class="final-screen" id="final">
+  <div class="ring">💍</div>
+  <h1>I Love You, Priya ❤️</h1>
+  <p>
+    I may not be perfect, but my love for you is real and eternal.<br>
+    I choose you — for every lifetime.
+  </p>
+</div>
 
-    <script>
-    const noBtn = document.getElementById('noBtn');
-    const overlay = document.getElementById('overlay');
-    const music = document.getElementById('music');
+<script>
+const noBtn = document.getElementById('noBtn');
+const overlay = document.getElementById('overlay');
+const music = document.getElementById('music');
+const heartbeat = document.getElementById('heartbeat');
+const final = document.getElementById('final');
 
-    noBtn.addEventListener('mouseover', moveNo);
-    noBtn.addEventListener('click', moveNo);
+noBtn.onmouseover = () => {
+  noBtn.style.left = Math.random() * 80 + 'vw';
+  noBtn.style.top = Math.random() * 80 + 'vh';
+};
 
-    function moveNo() {
-      const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-      const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-      noBtn.style.left = x + 'px';
-      noBtn.style.top = y + 'px';
+function confettiExplosion() {
+  const emojis = ['🎉','🎊','💖','✨','🥳','🎈'];
+  for (let i = 0; i < 70; i++) {
+    const c = document.createElement('div');
+    c.className = 'explosion';
+    c.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    c.style.setProperty('--x', (Math.random() * 600 - 300) + 'px');
+    c.style.setProperty('--y', (Math.random() * 600 - 300) + 'px');
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 1200);
+  }
+}
+
+function sayYes() {
+  overlay.style.display = 'flex';
+  music.play();
+  heartbeat.volume = 0.35;
+  heartbeat.play();
+  confettiExplosion();
+  setTimeout(showSecret, 2000);
+}
+
+function closePopup() {
+  overlay.style.display = 'none';
+}
+
+function showSecret() {
+  const box = document.createElement('div');
+  box.style.position = 'fixed';
+  box.style.bottom = '20px';
+  box.style.left = '50%';
+  box.style.transform = 'translateX(-50%)';
+  box.style.background = 'rgba(255,255,255,0.95)';
+  box.style.padding = '22px';
+  box.style.borderRadius = '22px';
+  box.style.zIndex = '15';
+  box.innerHTML = `
+    <b>🔒 Something only you should open ❤️</b><br><br>
+    <button id="open">Tap to unlock</button>
+  `;
+  document.body.appendChild(box);
+
+  document.getElementById('open').onclick = () => {
+    box.innerHTML = `
+      <input type="password" id="pass" placeholder="••••••••"><br><br>
+      <button onclick="unlock()">Unlock</button>
+    `;
+  };
+
+  window.unlock = () => {
+    if (document.getElementById('pass').value === '12072025') {
+      box.remove();
+      overlay.style.display = 'none';
+      fadeOutHeartbeat();
+      setTimeout(() => final.style.display = 'flex', 900);
+    } else {
+      alert('Try again, Babu 💕');
     }
+  };
+}
 
-    function sayYes() {
-      overlay.style.display = 'flex';
-      music.play();
-      createHearts();
-      createConfetti();
-      createFireworks();
-      showSecret();
+function fadeOutHeartbeat() {
+  let vol = heartbeat.volume;
+  const fade = setInterval(() => {
+    if (vol > 0.05) {
+      vol -= 0.05;
+      heartbeat.volume = vol;
+    } else {
+      heartbeat.pause();
+      heartbeat.currentTime = 0;
+      clearInterval(fade);
     }
+  }, 200);
+}
+</script>
 
-    function createHearts() {
-      for (let i = 0; i < 35; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.innerText = '❤️';
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = 2 + Math.random() * 3 + 's';
-        document.body.appendChild(heart);
-      }
-    }
-
-    function createConfetti() {
-      const emojis = ['🎉','✨','🎈','💖','🥳'];
-      for (let i = 0; i < 30; i++) {
-        const conf = document.createElement('div');
-        conf.className = 'confetti';
-        conf.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        conf.style.left = Math.random() * 100 + 'vw';
-        conf.style.animationDuration = 2 + Math.random() * 3 + 's';
-        document.body.appendChild(conf);
-      }
-    }
-
-    function createFireworks() {
-      const fireworks = ['🎆','🎇'];
-      for (let i = 0; i < 20; i++) {
-        const fire = document.createElement('div');
-        fire.className = 'confetti';
-        fire.innerText = fireworks[Math.floor(Math.random() * fireworks.length)];
-        fire.style.left = Math.random() * 100 + 'vw';
-        fire.style.animationDuration = 1.5 + Math.random() * 2 + 's';
-        fire.style.fontSize = '32px';
-        document.body.appendChild(fire);
-      }
-    }
-
-    function showSecret() {
-      setTimeout(() => {
-        const lock = document.createElement('div');
-        lock.style.position = 'fixed';
-        lock.style.bottom = '20px';
-        lock.style.left = '50%';
-        lock.style.transform = 'translateX(-50%)';
-        lock.style.background = 'rgba(255,255,255,0.95)';
-        lock.style.padding = '20px';
-        lock.style.borderRadius = '20px';
-        lock.style.maxWidth = '90%';
-        lock.style.textAlign = 'center';
-        lock.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
-        lock.innerHTML = `
-          <b>🔒 A Secret Just for You, Priya ❤️</b><br><br>
-          <input type="password" id="secretPass" placeholder="Enter password" style="padding:10px;border-radius:10px;border:1px solid #ccc;" /><br><br>
-          <small>Hint: the day of proposal</small><br><br>
-          <button onclick="unlockSecret()" style="padding:10px 20px;border:none;border-radius:20px;background:#ff3b6f;color:white;">Unlock 💖</button>
-        `;
-        document.body.appendChild(lock);
-
-        window.unlockSecret = function () {
-          const val = document.getElementById('secretPass').value;
-          if (val === '12072025') {
-            lock.innerHTML = `<b>Only for you, Priya ❤️</b><br><br>
-            I know I am not perfect and not always easy to be with. I may act rudely or irritate you many times, but I truly love you and I am willing to do whatever it takes for us to be together forever.<br><br>
-            I love you, Priya Bajpai, and I will love you until my very last breath.`;
-          } else {
-            alert('Oops… try again, Babu 💕');
-          }
-        };
-      }, 2000);
-    }
-  </script>
 </body>
 </html>
