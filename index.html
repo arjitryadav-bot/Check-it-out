@@ -71,4 +71,165 @@ button {
   position: relative;
 }
 
-.popu
+.popup img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.explode {
+  animation: explode 0.5s forwards;
+}
+
+@keyframes explode {
+  to { transform: scale(0); opacity: 0; }
+}
+
+.particle {
+  position: fixed;
+  font-size: 22px;
+  pointer-events: none;
+  animation: particle 0.8s forwards;
+}
+
+@keyframes particle {
+  to {
+    transform: translate(var(--x), var(--y));
+    opacity: 0;
+  }
+}
+
+.final {
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: white;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  z-index: 10;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" preload="auto" loop>
+  <source src="./cant_help_falling_in_love.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h1>My Babu, Priya 💖</h1>
+  <p>
+    This isn’t just Valentine’s Day.<br>
+    It’s choosing you forever.<br><br>
+    <b>Will you be my Valentine?</b>
+  </p>
+
+  <button class="yes" id="yesBtn">Yes 💕</button>
+  <button class="no" id="noBtn">No 🙈</button>
+</div>
+
+<div class="overlay" id="proposal">
+  <div class="popup">
+    <div class="close" id="closeProposal">✖</div>
+    <div style="font-size:50px;">💍</div>
+    <img src="./our_photo.jpg" alt="Us">
+    <p><b>Forever & Always</b><br>Love, Arjit ❤️</p>
+  </div>
+</div>
+
+<div class="overlay" id="secret">
+  <div class="popup">
+    <h3>🔒 A Secret for You</h3>
+    <input id="pass" type="password" placeholder="Password">
+    <p><small>Hint: the day of proposal</small></p>
+    <button id="unlockBtn">Unlock 💖</button>
+  </div>
+</div>
+
+<div class="final" id="final">I LOVE YOU 💍</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const proposal = document.getElementById("proposal");
+  const closeProposal = document.getElementById("closeProposal");
+  const secret = document.getElementById("secret");
+  const unlockBtn = document.getElementById("unlockBtn");
+  const final = document.getElementById("final");
+  const music = document.getElementById("music");
+
+  yesBtn.addEventListener("click", function() {
+    proposal.style.display = "flex";
+    music.currentTime = 0;
+    music.play().catch(() => {});
+  });
+
+  closeProposal.addEventListener("click", function() {
+    proposal.style.display = "none";
+    secret.style.display = "flex";
+  });
+
+  unlockBtn.addEventListener("click", function() {
+    const password = document.getElementById("pass").value;
+
+    if (password === "12072025") {
+      secret.innerHTML = `
+        <div class="popup">
+          I know I am not perfect and not always easy to be with.
+          I may irritate you many times, but I truly love you and will
+          do whatever it takes to be together forever.<br><br>
+          I love you, Priya Bajpai, till my last breath.
+        </div>
+      `;
+      setTimeout(function() {
+        final.style.display = "flex";
+      }, 20000);
+    } else {
+      alert("Wrong password, Babu ❤️");
+    }
+  });
+
+  noBtn.addEventListener("click", function() {
+    noBtn.classList.add("explode");
+    noBtn.disabled = true;
+
+    const rect = noBtn.getBoundingClientRect();
+    const emojis = ["💥","💔","🔥"];
+
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+      p.style.left = rect.left + rect.width / 2 + "px";
+      p.style.top = rect.top + rect.height / 2 + "px";
+
+      p.style.setProperty("--x", (Math.random() * 200 - 100) + "px");
+      p.style.setProperty("--y", (Math.random() * 200 - 100) + "px");
+
+      document.body.appendChild(p);
+
+      setTimeout(function() {
+        p.remove();
+      }, 800);
+    }
+  });
+
+});
+</script>
+
+</body>
+</html>
