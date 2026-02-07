@@ -19,6 +19,7 @@ body{
 
 /* CARD */
 .card{
+  position:relative;
   background:white;
   padding:45px 35px;
   border-radius:24px;
@@ -37,16 +38,10 @@ button{
   border:none;
   border-radius:30px;
   cursor:pointer;
-  transition:.25s ease;
 }
 
 .yes{background:#ff3b6f;color:white}
 .no{background:#ddd;color:#333;position:absolute}
-
-button:hover{
-  transform:scale(1.08);
-  box-shadow:0 12px 25px rgba(0,0,0,.25);
-}
 
 /* OVERLAY */
 .overlay{
@@ -65,7 +60,7 @@ button:hover{
   padding:35px;
   border-radius:30px;
   text-align:center;
-  animation:pop .8s cubic-bezier(.22,1,.36,1);
+  animation:pop .8s ease;
 }
 
 .popup img{
@@ -80,19 +75,7 @@ button:hover{
   to{transform:scale(1);opacity:1}
 }
 
-/* RING */
-.ring{
-  font-size:60px;
-  animation:ringPulse 1.5s infinite;
-}
-
-@keyframes ringPulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.3) rotate(10deg)}
-  100%{transform:scale(1)}
-}
-
-/* KNEE DOWN */
+/* KNEE */
 .knee{
   position:fixed;
   bottom:-120px;
@@ -103,9 +86,7 @@ button:hover{
   z-index:40;
 }
 
-@keyframes kneeDown{
-  to{bottom:120px;}
-}
+@keyframes kneeDown{to{bottom:120px;}}
 
 /* CONFETTI */
 .explosion{
@@ -114,7 +95,7 @@ button:hover{
   top:50%;
   transform:translate(-50%,-50%);
   font-size:30px;
-  animation:explode 1.4s cubic-bezier(.22,1,.36,1) forwards;
+  animation:explode 1.4s ease forwards;
   pointer-events:none;
   z-index:50;
 }
@@ -138,11 +119,9 @@ button:hover{
   z-index:5;
 }
 
-@keyframes fall{
-  to{transform:translateY(110vh);}
-}
+@keyframes fall{to{transform:translateY(110vh);}}
 
-/* FINAL LOVE SCREEN */
+/* FINAL SCREEN */
 .final-love{
   position:fixed;
   inset:0;
@@ -162,10 +141,7 @@ button:hover{
   text-align:center;
 }
 
-@keyframes fadeIn{
-  to{opacity:1;}
-}
-
+@keyframes fadeIn{to{opacity:1}}
 @keyframes pulse{
   0%{transform:scale(1);opacity:.8}
   50%{transform:scale(1.08);opacity:1}
@@ -176,16 +152,13 @@ button:hover{
 
 <body>
 
-<!-- AUDIO -->
 <audio id="music" loop>
-  <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
+  <source src="cant_help_falling_in_love.mp3">
 </audio>
-
 <audio id="heartbeat" loop>
-  <source src="heartbeat.mp3" type="audio/mpeg">
+  <source src="heartbeat.mp3">
 </audio>
 
-<!-- MAIN CARD -->
 <div class="card">
 <h1>My Babu, Priya 💖</h1>
 <p>
@@ -194,69 +167,69 @@ It’s about choosing <b>you</b> again and again,<br>
 for the rest of my life.<br><br>
 <b>Will you be my Valentine?</b>
 </p>
-<button class="yes" onclick="sayYes()">Yes 💕</button>
+<button class="yes" id="yesBtn">Yes 💕</button>
 <button class="no" id="noBtn">No 🙈</button>
 </div>
 
-<!-- POPUP -->
 <div class="overlay" id="overlay">
   <div class="popup">
-    <div class="ring">💍</div>
-    <img src="our_photo.jpg" alt="Arjit & Priya">
+    <div style="font-size:60px;">💍</div>
+    <img src="our_photo.jpg">
     <h2>Forever & Always 💖</h2>
-    <p>You are my today, my tomorrow, and all my forever.</p>
-    <p><b>Love, Arjit ❤️</b></p>
+    <p>Love, Arjit ❤️</p>
   </div>
 </div>
 
 <script>
-const noBtn=document.getElementById("noBtn");
-const overlay=document.getElementById("overlay");
-const music=document.getElementById("music");
-const heartbeat=document.getElementById("heartbeat");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const overlay = document.getElementById("overlay");
+const music = document.getElementById("music");
+const heartbeat = document.getElementById("heartbeat");
 
-noBtn.addEventListener("mouseover",moveNo);
-noBtn.addEventListener("click",moveNo);
+yesBtn.addEventListener("click", sayYes);
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("click", moveNo);
 
 function moveNo(){
-  noBtn.style.left=Math.random()*80+"vw";
-  noBtn.style.top=Math.random()*80+"vh";
+  const card=document.querySelector(".card");
+  const r=card.getBoundingClientRect();
+  noBtn.style.left=Math.random()*(r.width-80)+"px";
+  noBtn.style.top=Math.random()*(r.height-40)+"px";
 }
 
 function sayYes(){
   music.play();
-  heartbeat.volume=0.35;
   heartbeat.play();
-
-  kneeDown();
-  setTimeout(confettiExplosion,800);
-  setTimeout(startRoses,1000);
+  knee();
+  setTimeout(explode,800);
+  setTimeout(roses,1000);
   setTimeout(()=>overlay.style.display="flex",1600);
-  setTimeout(showSecret,3200);
-  setTimeout(finalLove,12000);
+  setTimeout(secretBox,3000);
+  setTimeout(finalScreen,12000);
 }
 
-function kneeDown(){
+function knee(){
   const k=document.createElement("div");
   k.className="knee";
   k.textContent="🧎‍♂️";
   document.body.appendChild(k);
 }
 
-function confettiExplosion(){
-  const emojis=["🎉","💖","✨","🎈","🥳","🎆"];
+function explode(){
+  const e=["🎉","💖","✨","🎈","🥳","🎆"];
   for(let i=0;i<100;i++){
-    const e=document.createElement("div");
-    e.className="explosion";
-    e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
-    e.style.setProperty("--x",(Math.random()*600-300)+"px");
-    e.style.setProperty("--y",(Math.random()*600-300)+"px");
-    document.body.appendChild(e);
-    setTimeout(()=>e.remove(),1400);
+    const d=document.createElement("div");
+    d.className="explosion";
+    d.textContent=e[Math.floor(Math.random()*e.length)];
+    d.style.setProperty("--x",(Math.random()*600-300)+"px");
+    d.style.setProperty("--y",(Math.random()*600-300)+"px");
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),1400);
   }
 }
 
-function startRoses(){
+function roses(){
   for(let i=0;i<30;i++){
     const r=document.createElement("div");
     r.className="rose";
@@ -267,26 +240,27 @@ function startRoses(){
   }
 }
 
-function showSecret(){
+function secretBox(){
   const box=document.createElement("div");
   box.style.position="fixed";
   box.style.bottom="20px";
   box.style.left="50%";
   box.style.transform="translateX(-50%)";
-  box.style.background="rgba(255,255,255,.95)";
+  box.style.background="white";
   box.style.padding="20px";
   box.style.borderRadius="20px";
-  box.style.zIndex="60";
+  box.style.zIndex="80";
   box.style.textAlign="center";
+
   box.innerHTML=`
-  <b>🔒 A Secret Just for You</b><br><br>
-  <input id="pass" type="password" placeholder="Password"
-  style="padding:10px;border-radius:10px"><br><br>
-  <small>Hint: the day of proposal</small><br><br>
-  <button onclick="unlock()">Unlock 💖</button>`;
+    <b>🔒 A Secret Just for You</b><br><br>
+    <input id="pass" type="password" style="padding:10px"><br><br>
+    <small>Hint: the day of proposal</small><br><br>
+    <button id="unlockBtn">Unlock 💖</button>
+  `;
   document.body.appendChild(box);
 
-  window.unlock=()=>{
+  document.getElementById("unlockBtn").addEventListener("click",()=>{
     if(document.getElementById("pass").value==="12072025"){
       box.innerHTML=`💖<br>
       I know I am not perfect and not always easy to be with.
@@ -296,10 +270,10 @@ function showSecret(){
     }else{
       alert("Try again, Babu 💕");
     }
-  };
+  });
 }
 
-function finalLove(){
+function finalScreen(){
   const f=document.createElement("div");
   f.className="final-love";
   f.innerHTML="<h1>I love you, Priya ❤️</h1>";
