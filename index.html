@@ -19,7 +19,6 @@ body {
   overflow: hidden;
 }
 
-/* CARD */
 .card {
   background: white;
   padding: 40px;
@@ -27,8 +26,6 @@ body {
   text-align: center;
   width: 90%;
   max-width: 420px;
-  position: relative;
-  z-index: 2;
 }
 
 h1 { color: #ff3b6f; }
@@ -52,7 +49,6 @@ button {
   color: #333;
 }
 
-/* OVERLAY */
 .overlay {
   position: fixed;
   inset: 0;
@@ -60,10 +56,8 @@ button {
   display: none;
   align-items: center;
   justify-content: center;
-  z-index: 5;
 }
 
-/* POPUP */
 .popup {
   background: #fff;
   padding: 25px;
@@ -74,12 +68,6 @@ button {
   position: relative;
 }
 
-.popup img {
-  width: 100%;
-  border-radius: 15px;
-  margin-top: 10px;
-}
-
 .close {
   position: absolute;
   top: 8px;
@@ -88,30 +76,6 @@ button {
   cursor: pointer;
 }
 
-/* EXPLOSION */
-.explode {
-  animation: explode 0.5s forwards;
-}
-
-@keyframes explode {
-  to { transform: scale(0); opacity: 0; }
-}
-
-.particle {
-  position: fixed;
-  font-size: 22px;
-  pointer-events: none;
-  animation: particle 0.8s forwards;
-}
-
-@keyframes particle {
-  to {
-    transform: translate(var(--x), var(--y));
-    opacity: 0;
-  }
-}
-
-/* FINAL */
 .final {
   position: fixed;
   inset: 0;
@@ -121,7 +85,6 @@ button {
   align-items: center;
   justify-content: center;
   font-size: 40px;
-  z-index: 10;
   opacity: 0;
 }
 </style>
@@ -129,9 +92,10 @@ button {
 
 <body>
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="./cant_help_falling_in_love.mp3" type="audio/mpeg">
+<!-- ONLINE AUDIO (Direct MP3) -->
+<audio id="music" 
+src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
+loop>
 </audio>
 
 <div class="card">
@@ -146,23 +110,11 @@ button {
   <button class="no" id="noBtn">No 🙈</button>
 </div>
 
-<!-- PROPOSAL -->
 <div class="overlay" id="proposal">
   <div class="popup">
     <div class="close" id="closeProposal">✖</div>
     <div style="font-size:50px;">💍</div>
-    <img src="./our_photo.jpg" alt="Us">
     <p><b>Forever & Always</b><br>Love, Arjit ❤️</p>
-  </div>
-</div>
-
-<!-- SECRET -->
-<div class="overlay" id="secret">
-  <div class="popup">
-    <h3>🔒 A Secret for You</h3>
-    <input id="pass" type="password" placeholder="Password">
-    <p><small>Hint: the day of proposal</small></p>
-    <button id="unlockBtn">Unlock 💖</button>
   </div>
 </div>
 
@@ -172,11 +124,8 @@ button {
 document.addEventListener("DOMContentLoaded", function() {
 
 const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
 const proposal = document.getElementById("proposal");
 const closeProposal = document.getElementById("closeProposal");
-const secret = document.getElementById("secret");
-const unlockBtn = document.getElementById("unlockBtn");
 const final = document.getElementById("final");
 const music = document.getElementById("music");
 
@@ -187,65 +136,22 @@ yesBtn.addEventListener("click", function() {
   music.volume = 0.6;
   music.currentTime = 0;
 
-  const playPromise = music.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {});
-  }
+  music.play().catch(err => {
+    console.log("Playback issue:", err);
+  });
 });
 
 /* CLOSE PROPOSAL */
 closeProposal.addEventListener("click", function() {
   proposal.style.display = "none";
-  secret.style.display = "flex";
-});
 
-/* UNLOCK SECRET */
-unlockBtn.addEventListener("click", function() {
-  const password = document.getElementById("pass").value;
-
-  if (password === "12072025") {
-    secret.innerHTML = `
-      <div class="popup">
-        I know I am not perfect and not always easy to be with.
-        I may irritate you many times, but I truly love you and will
-        do whatever it takes to be together forever.<br><br>
-        I love you, Priya Bajpai, till my last breath.
-      </div>
-    `;
-
-    // 10 second delay + fade effect
-    setTimeout(function() {
-      final.style.display = "flex";
-      final.style.transition = "opacity 2s";
-      setTimeout(function() {
-        final.style.opacity = "1";
-      }, 100);
-    }, 10000);
-
-  } else {
-    alert("Wrong password, Babu ❤️");
-  }
-});
-
-/* NO BUTTON EXPLOSION */
-noBtn.addEventListener("click", function() {
-  noBtn.classList.add("explode");
-  noBtn.disabled = true;
-
-  const rect = noBtn.getBoundingClientRect();
-  const emojis = ["💥","💔","🔥"];
-
-  for (let i = 0; i < 15; i++) {
-    const p = document.createElement("div");
-    p.className = "particle";
-    p.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-    p.style.left = rect.left + rect.width/2 + "px";
-    p.style.top = rect.top + rect.height/2 + "px";
-    p.style.setProperty("--x", (Math.random()*200-100)+"px");
-    p.style.setProperty("--y", (Math.random()*200-100)+"px");
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 800);
-  }
+  setTimeout(function() {
+    final.style.display = "flex";
+    final.style.transition = "opacity 2s";
+    setTimeout(() => {
+      final.style.opacity = "1";
+    }, 100);
+  }, 10000);
 });
 
 });
