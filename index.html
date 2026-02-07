@@ -56,6 +56,7 @@ button{
 
 /* POPUP */
 .popup{
+  position:relative;
   background:linear-gradient(135deg,#ffdde1,#ee9ca7);
   padding:35px;
   border-radius:30px;
@@ -70,9 +71,14 @@ button{
   box-shadow:0 15px 30px rgba(0,0,0,.3);
 }
 
-@keyframes pop{
-  from{transform:scale(.5);opacity:0}
-  to{transform:scale(1);opacity:1}
+.close-btn{
+  position:absolute;
+  top:12px;
+  right:16px;
+  font-size:22px;
+  cursor:pointer;
+  background:none;
+  border:none;
 }
 
 /* KNEE */
@@ -88,7 +94,7 @@ button{
 
 @keyframes kneeDown{to{bottom:120px;}}
 
-/* CONFETTI */
+/* CONFETTI / EXPLOSION */
 .explosion{
   position:fixed;
   left:50%;
@@ -153,10 +159,10 @@ button{
 <body>
 
 <audio id="music" loop>
-  <source src="cant_help_falling_in_love.mp3">
+  <source src="cant_help_falling_in_love.mp3" type="audio/mpeg">
 </audio>
 <audio id="heartbeat" loop>
-  <source src="heartbeat.mp3">
+  <source src="heartbeat.mp3" type="audio/mpeg">
 </audio>
 
 <div class="card">
@@ -173,6 +179,7 @@ for the rest of my life.<br><br>
 
 <div class="overlay" id="overlay">
   <div class="popup">
+    <button class="close-btn" id="closePopup">✖</button>
     <div style="font-size:60px;">💍</div>
     <img src="our_photo.jpg">
     <h2>Forever & Always 💖</h2>
@@ -181,15 +188,17 @@ for the rest of my life.<br><br>
 </div>
 
 <script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const overlay = document.getElementById("overlay");
-const music = document.getElementById("music");
-const heartbeat = document.getElementById("heartbeat");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noBtn");
+const overlay=document.getElementById("overlay");
+const closePopup=document.getElementById("closePopup");
+const music=document.getElementById("music");
+const heartbeat=document.getElementById("heartbeat");
 
-yesBtn.addEventListener("click", sayYes);
-noBtn.addEventListener("mouseover", moveNo);
-noBtn.addEventListener("click", moveNo);
+yesBtn.addEventListener("click",sayYes);
+noBtn.addEventListener("mouseover",moveNo);
+noBtn.addEventListener("click",explodeNo);
+closePopup.addEventListener("click",showSecret);
 
 function moveNo(){
   const card=document.querySelector(".card");
@@ -198,15 +207,34 @@ function moveNo(){
   noBtn.style.top=Math.random()*(r.height-40)+"px";
 }
 
+function explodeNo(){
+  explodeAt(noBtn.getBoundingClientRect());
+  noBtn.remove();
+}
+
+function explodeAt(rect){
+  const e=["💥","😈","🔥"];
+  for(let i=0;i<20;i++){
+    const d=document.createElement("div");
+    d.className="explosion";
+    d.textContent=e[Math.floor(Math.random()*e.length)];
+    d.style.left=rect.left+"px";
+    d.style.top=rect.top+"px";
+    d.style.setProperty("--x",(Math.random()*300-150)+"px");
+    d.style.setProperty("--y",(Math.random()*300-150)+"px");
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),1200);
+  }
+}
+
 function sayYes(){
+  music.currentTime=0;
   music.play();
   heartbeat.play();
   knee();
-  setTimeout(explode,800);
+  setTimeout(confetti,800);
   setTimeout(roses,1000);
   setTimeout(()=>overlay.style.display="flex",1600);
-  setTimeout(secretBox,3000);
-  setTimeout(finalScreen,12000);
 }
 
 function knee(){
@@ -216,9 +244,9 @@ function knee(){
   document.body.appendChild(k);
 }
 
-function explode(){
+function confetti(){
   const e=["🎉","💖","✨","🎈","🥳","🎆"];
-  for(let i=0;i<100;i++){
+  for(let i=0;i<80;i++){
     const d=document.createElement("div");
     d.className="explosion";
     d.textContent=e[Math.floor(Math.random()*e.length)];
@@ -230,7 +258,7 @@ function explode(){
 }
 
 function roses(){
-  for(let i=0;i<30;i++){
+  for(let i=0;i<25;i++){
     const r=document.createElement("div");
     r.className="rose";
     r.textContent="🌹";
@@ -240,7 +268,9 @@ function roses(){
   }
 }
 
-function secretBox(){
+function showSecret(){
+  overlay.style.display="none";
+
   const box=document.createElement("div");
   box.style.position="fixed";
   box.style.bottom="20px";
@@ -267,6 +297,8 @@ function secretBox(){
       I may act rudely or irritate you many times, but I truly love you
       and I am willing to do whatever it takes for us to be together forever.<br><br>
       I love you, Priya Bajpai, and I will love you until my very last breath.`;
+
+      setTimeout(finalScreen,20000);
     }else{
       alert("Try again, Babu 💕");
     }
